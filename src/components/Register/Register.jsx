@@ -8,7 +8,7 @@ import { IoEyeOff } from 'react-icons/io5';
 const Register = () => {
 
   const navigate = useNavigate();
-  const { signInWithGoogle, user, setUser, setLoading, createUser } = useContext(AuthContext);
+  const { signInWithGoogle, setUser, setLoading, createUser, updateUser } = useContext(AuthContext);
   const [show, setShow] = useState(false);
 
   const handleSignUp = (e) => {
@@ -28,17 +28,24 @@ const Register = () => {
 
     createUser(email, password)
       .then((result) => {
-        setUser(result.user)
-        console.log(user);
-        e.target.reset();
-        toast.success("Sign Up Successful.")
+        const newUser = result.user;
 
-        setLoading(false);
-        navigate("/");
-      })
-      .catch(error => {
-        toast.error(error.message);
-      })
+    updateUser(name, photo)
+    .then(() => {
+      setUser({ ...newUser, displayName: name, photoURL: photo });
+      toast.success("Sign Up Successful.");
+      e.target.reset();
+      setLoading(false);
+      navigate("/");
+    })
+    .catch((err) => {
+      console.error("Error updating profile:", err);
+      toast.error("Failed to update profile.");
+    });
+  })
+  .catch(error => {
+    toast.error(error.message);
+  });
   }
 
   const handleGoogleSignIn = () => {

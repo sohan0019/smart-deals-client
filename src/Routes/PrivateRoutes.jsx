@@ -1,17 +1,21 @@
 import React, { use } from 'react';
 import { AuthContext } from '../Context/AuthContext';
-import { NavLink, useLocation } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 
 const PrivateRoutes = ({children}) => {
 
-  const {user} = use(AuthContext);
+  const {user, loading} = use(AuthContext);
   const location = useLocation();
+
+  if (loading) {
+    return <span className="loading loading-spinner text-success"></span>
+  }
 
   if (user && user.email) {
    return children; 
-  } else {
-    return <NavLink state={location.pathname} to="/login"></NavLink>
-  }
+  } 
+
+  return <Navigate state={location?.pathname} to="/register"></Navigate>
 
 };
 

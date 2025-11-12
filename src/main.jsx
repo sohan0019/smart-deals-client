@@ -14,6 +14,8 @@ import MyProducts from './MyProducts/MyProducts.jsx';
 import MyBids from './MyBids/MyBids.jsx';
 import PrivateRoutes from './Routes/PrivateRoutes.jsx';
 import { ToastContainer } from 'react-toastify';
+import ProductDetails from './components/ProductDetails/ProductDetails.jsx';
+import CreateAProduct from './components/CreateAProduct/CreateAProduct.jsx';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,20 @@ const router = createBrowserRouter([
         element: <PrivateRoutes>
           <MyBids></MyBids>
         </PrivateRoutes>,
+      },
+      {
+        path: 'productDetails/:id',
+        loader: ({params}) => fetch(`http://localhost:3000/productDetails/${params.id}`).then(res => res.json()),
+        element: <PrivateRoutes>
+          <ProductDetails></ProductDetails>
+        </PrivateRoutes>
+      },
+      {
+        path: 'createAProduct',
+        
+        element: <PrivateRoutes>
+          <CreateAProduct></CreateAProduct>
+        </PrivateRoutes>
       },
     ]
   },
