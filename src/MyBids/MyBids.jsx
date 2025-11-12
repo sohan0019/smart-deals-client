@@ -12,7 +12,7 @@ const MyBids = () => {
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axiosSecure.get(`/bids?email=anika121@gmail.com`)
+    axiosSecure.get(`/bids?email=${user.email}`)
       .then(data => {
         console.log('secure bids data', data)
         setBids(data.data);
